@@ -70,9 +70,13 @@ public abstract class PublicBuilding implements IBuilding {
      */
     public ArrayList<LocalTime[]> getWorkSchedule(){
         
-        var workSchedule = new ArrayList<LocalTime[]>();
-        workSchedule.add(_timeOfOpening);
-        workSchedule.add(_timeOfClosing);
+        var workSchedule = new ArrayList<LocalTime[]>()
+        {
+            {
+                           add(_timeOfOpening);
+                           add(_timeOfClosing);
+            }   
+        };
         
         return workSchedule;
     }

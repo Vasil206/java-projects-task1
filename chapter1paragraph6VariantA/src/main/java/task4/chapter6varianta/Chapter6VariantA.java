@@ -6,6 +6,9 @@ package task4.chapter6varianta;
 
 /**
  * chapter 1, paragraph 6, variant A, task's number 4
+ * 
+ * interface Здание ß abstract class Общественное Здание ß class Театр.
+ * 
  * @author Acer
  */
 public class Chapter6VariantA {
