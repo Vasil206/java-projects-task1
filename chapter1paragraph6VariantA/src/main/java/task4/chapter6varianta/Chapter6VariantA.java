@@ -11,6 +11,11 @@ package task4.chapter6varianta;
 public class Chapter6VariantA {
 
     public static void main(String[] args) {
+        
+        /* here could be something related to buildings...
+         *
+         * but i'm too lazy to do it :)
+         */
         System.out.println("Hello World!");
     }
 }

@@ -11,16 +11,16 @@ package building;
 public @interface IBuilding {
 
     /**
-     * returns build a building or not
-     * @return
-     */
-    boolean isBuilt();
-    
-    /**
      *returns the type of building
      * @return
      */
     String typeOfBuilding();
+    
+    /**
+     * returns build a building or not
+     * @return
+     */
+    boolean isBuilt();
     
     /**
      * build a building.
