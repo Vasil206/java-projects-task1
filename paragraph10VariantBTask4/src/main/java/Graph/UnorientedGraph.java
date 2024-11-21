@@ -5,6 +5,8 @@
 package Graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Stack;
 import java.util.TreeSet;
 
 /**
@@ -14,21 +16,26 @@ import java.util.TreeSet;
 public class UnorientedGraph implements IGraph {
     
     private final ArrayList<TreeSet<Integer>> _nodes;
+    private final Stack<Integer> _deleted_nodes;
     
     public UnorientedGraph(int size){
         
+        _deleted_nodes = new Stack<>();
         _nodes = new ArrayList<>(2 * size);
         
         for(int i = 0; i < size; i++){
+            
             _nodes.add(new TreeSet<>());
         }
+        
     }
 
     @Override
     public boolean addEdge(int from, int to) {
         
         if((from < 0) || (from >= _nodes.size())
-                || (to < 0) || (to >= _nodes.size())){
+            || (to < 0) || (to >= _nodes.size())
+            || _deleted_nodes.contains(from) || _deleted_nodes.contains(to)){
             
             return false;
         }
@@ -40,7 +47,8 @@ public class UnorientedGraph implements IGraph {
     public boolean deleteEdge(int from, int to) {
         
         if((from < 0) || (from >= _nodes.size())
-                || (to < 0) || (to >= _nodes.size())){
+            || (to < 0) || (to >= _nodes.size())
+            || _deleted_nodes.contains(from) || _deleted_nodes.contains(to)){
             
             return false;
         }
@@ -51,24 +59,31 @@ public class UnorientedGraph implements IGraph {
     @Override
     public int addNode() {
         
-        _nodes.add(new TreeSet<>());
+        if(!_deleted_nodes.empty()){
+            
+            return _deleted_nodes.pop();
+        }
         
+        _nodes.add(new TreeSet<>());
         return _nodes.size() - 1;
     }
 
     @Override
     public boolean deleteNode(int nodeNumber) {
         
-        if((nodeNumber >= _nodes.size()) || (nodeNumber < 0)){
+        if((nodeNumber >= _nodes.size()) || (nodeNumber < 0)
+                || _deleted_nodes.contains(nodeNumber)){
             
             return false;
         }
         
-        _nodes.remove(nodeNumber);
+        _nodes.stream().forEach(node -> node.remove(nodeNumber));
+        //for(var i : _nodes){
+        //    i.remove(nodeNumber);
+        //}
         
-        for(var i : _nodes){
-            i.remove(nodeNumber);
-        }
+        _nodes.get(nodeNumber).clear();
+        _deleted_nodes.push(nodeNumber);
         
         return true;
     }
@@ -76,9 +91,11 @@ public class UnorientedGraph implements IGraph {
     @Override
     public Integer[] getNeighbours(int node) throws IllegalArgumentException {
 
-        if((node >= _nodes.size()) || (node < 0)){
+        if((node >= _nodes.size()) || (node < 0)
+                || _deleted_nodes.contains(node)){
             
-            throw new IllegalArgumentException("not valid parameter 'node'");
+            throw new IllegalArgumentException("UnorientedGraph :"
+                    + " not valid parameter 'node'");
         }
         
         return _nodes.get(node).toArray(Integer[]::new);
@@ -87,7 +104,7 @@ public class UnorientedGraph implements IGraph {
     @Override
     public int size() {
         
-        return _nodes.size();
+        return _nodes.size() - _deleted_nodes.size();
     }
     
 }

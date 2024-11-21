@@ -24,8 +24,12 @@ public class Paragraph10VariantBTask4 {
         /* everything below should be random in a test class */
         graph.addEdge(0, 5);
         graph.addEdge(0, 3);
-        graph.addNode();
-        graph.addEdge(10, 5);
+        int newNode = graph.addNode();
+        graph.addEdge(newNode, 5);
+        graph.deleteNode(0);
+        newNode = graph.addNode();
+        graph.addEdge(newNode, 10);
+        graph.addEdge(3, 5);
         
         System.out.println("neighbours of 0");
         for(var i : graph.getNeighbours(0)){
@@ -47,9 +51,9 @@ public class Paragraph10VariantBTask4 {
             System.out.println(i);
         }
         
-        System.out.println("neighbours of 11");
+        System.out.println("neighbours of 31");
         try{
-        graph.getNeighbours(11);
+        graph.getNeighbours(31);
         } catch(IllegalArgumentException ex){
             System.out.println(ex.getMessage());
         }
