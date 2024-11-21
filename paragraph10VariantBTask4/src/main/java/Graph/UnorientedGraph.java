@@ -77,10 +77,7 @@ public class UnorientedGraph implements IGraph {
             return false;
         }
         
-        _nodes.stream().forEach(node -> node.remove(nodeNumber));
-        //for(var i : _nodes){
-        //    i.remove(nodeNumber);
-        //}
+        _nodes.forEach(node -> node.remove(nodeNumber));
         
         _nodes.get(nodeNumber).clear();
         _deleted_nodes.push(nodeNumber);
