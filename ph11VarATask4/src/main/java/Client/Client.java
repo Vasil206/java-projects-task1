@@ -32,11 +32,12 @@ public class Client extends Thread {
     public void run(){
         
         var rand = new Random();
+        boolean isGetCalling = false;
 
         System.out.println(super.getName() + " is waiting...");
 
         try {    
-            boolean isGetCalling = _callCenter.tryAcquire(rand.nextInt(5), TimeUnit.SECONDS);
+            isGetCalling = _callCenter.tryAcquire(rand.nextInt(5), TimeUnit.SECONDS);
             
             if (isGetCalling){
                 
@@ -50,7 +51,10 @@ public class Client extends Thread {
         } catch (InterruptedException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            _callCenter.release();
+            if(isGetCalling){
+                
+                _callCenter.release();
+            }
         }
     }
     
